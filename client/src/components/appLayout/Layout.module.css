@@ -1,0 +1,12 @@
+.appcontainer {
+  width: 100%;
+  /* max-width: 1366px; */
+  /* background-color: #fff; */
+}
+
+.maincontaner {
+  width: 100%;
+  max-width: 1366px;
+  margin: 0 auto;
+  margin-top: 30px;
+}

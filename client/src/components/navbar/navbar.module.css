@@ -1,0 +1,42 @@
+.container {
+  height: 60px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 1366px;
+  margin: 0 auto;
+}
+
+.left {
+  display: flex;
+  height: 100%;
+  flex-grow: 1;
+}
+
+.right {
+  display: flex;
+  height: 100%;
+  flex-grow: 1;
+  justify-content: end;
+}
+
+.item {
+  height: 100%;
+  padding: 0 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.logo-wrapper {
+  padding: 0 15px;
+}
+
+.logo {
+  font-weight: 600;
+  font-size: 24px;
+  text-transform: uppercase;
+}

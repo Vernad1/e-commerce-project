@@ -1,0 +1,14 @@
+.content {
+  width: 100%;
+  max-width: 650px;
+  height: 100vh;
+  margin: 0 auto;
+}
+
+.titleWrapper {
+  padding: 64px 0 25px 1px;
+}
+
+.title {
+  text-align: center;
+}

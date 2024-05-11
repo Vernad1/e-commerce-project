@@ -1,0 +1,38 @@
+.container {
+  display: flex;
+}
+
+.right {
+  flex-grow: 1;
+}
+
+.left {
+  max-width: 300px;
+  width: 100%;
+  padding: 15px 35px;
+  position: sticky;
+  height: 100%;
+  top: 50px;
+}
+
+.filterItem {
+  margin-bottom: 20px;
+}
+
+.filterItem h2 {
+  margin-bottom: 10px;
+}
+
+.inputItem label {
+  text-transform: unset;
+  margin-left: 10px;
+}
+
+.inputItem {
+  margin-left: 12px;
+}
+
+.rangeInput {
+  padding: 0;
+  margin: 0 10px;
+}
