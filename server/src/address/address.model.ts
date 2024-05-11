@@ -1,12 +1,12 @@
 import {
-  BelongsToMany,
+  BelongsTo,
   Column,
   DataType,
+  ForeignKey,
   Model,
   Table,
 } from 'sequelize-typescript';
 import { User } from '../user/user.model';
-import { UserAddress } from './user-address.model';
 
 interface AddressCreationAttrs {
   city: string;
@@ -27,6 +27,10 @@ export class Address extends Model<Address, AddressCreationAttrs> {
   })
   id: number;
 
+  @ForeignKey(() => User)
+  @Column({ type: DataType.INTEGER })
+  userId: number;
+
   @Column({
     type: DataType.STRING,
     allowNull: false,
@@ -63,6 +67,6 @@ export class Address extends Model<Address, AddressCreationAttrs> {
   })
   postcode: string;
 
-  @BelongsToMany(() => User, () => UserAddress)
-  user: User[];
+  @BelongsTo(() => User)
+  user: User;
 }
