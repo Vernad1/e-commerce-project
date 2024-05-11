@@ -1,0 +1,9 @@
+export const ADMIN_ROUTE = "/admin";
+export const HOME_ROUTE = "/";
+export const REGISTER_ROUTE = "/registration";
+export const LOGIN_ROUTE = "/login";
+export const PRODUCTS_ROUTE = "/products";
+export const NOT_FOUND_ROUTE = "*";
+export const CATEGORIES = "/products/:id";
+export const CATEGORIES_FILTERS = "/products/:filter/:id"; //
+export const PRODUCT_ROUTE = "/product/:id";
