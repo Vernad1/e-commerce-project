@@ -1,15 +1,27 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 //TODO сделать product_image
 
 @Controller('product')
 export class ProductController {
   constructor(private productService: ProductService) {}
+
   @Post()
-  create(@Body() createProductDto: CreateProductDto) {
-    return this.productService.createProduct(createProductDto);
+  @UseInterceptors(FileInterceptor('image'))
+  create(@Body() createProductDto: CreateProductDto, @UploadedFile() image) {
+    return this.productService.createProduct(createProductDto, image);
   }
 
   // @Get()

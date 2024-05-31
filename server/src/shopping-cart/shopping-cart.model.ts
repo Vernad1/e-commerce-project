@@ -4,6 +4,7 @@ import {
   Column,
   DataType,
   ForeignKey,
+  HasMany,
   Model,
   Table,
 } from 'sequelize-typescript';
@@ -34,6 +35,6 @@ export class ShoppingCart extends Model<
   @BelongsTo(() => User)
   user: User;
 
-  @BelongsToMany(() => ProductItem, () => ShoppingCartItem)
-  products: ProductItem[];
+  @HasMany(() => ShoppingCartItem)
+  shoppingCartItems: ShoppingCartItem[];
 }

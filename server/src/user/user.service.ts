@@ -11,8 +11,14 @@ export class UserService {
     return user;
   }
   async getAllUsers() {
-    const users = await this.userRepository.findAll();
+    const users = await this.userRepository.findAll({ include: { all: true } });
     return users;
+  }
+
+  async getUserByEmail(email: string) {
+    const user = await this.userRepository.findOne({ where: { email } });
+
+    return user;
   }
 
   async getUserById(id: number) {

@@ -134,6 +134,41 @@ export class ProductItemService {
     return productItem;
   }
 
+  async getProductItemsByProduct(productId: number) {
+    const productItem = await this.productItemRepo.findAll({
+      where: {
+        productId,
+      },
+
+      attributes: ['id', 'productId', 'sku', 'quantity'],
+      include: [
+        {
+          model: VariationOption,
+          attributes: ['id', 'variationId', 'value'],
+          include: [
+            {
+              model: Variation,
+              attributes: ['id', 'categoryId', 'name'],
+            },
+          ],
+        },
+        {
+          model: Product,
+          attributes: ['id', 'name', 'description', 'price'],
+
+          include: [
+            { model: Details },
+            {
+              model: ProductImage,
+              attributes: ['id', 'image'],
+            },
+          ],
+        },
+      ],
+    });
+    return productItem;
+  }
+
   generateSku(id: number): string {
     const resId = id.toString();
     let res = resId;

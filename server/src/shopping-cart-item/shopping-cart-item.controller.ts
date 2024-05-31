@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Put } from '@nestjs/common';
 import { ShoppingCartItemService } from './shopping-cart-item.service';
 import { ShoppingCartItemDto } from './dto/stopping-cart-item.dto';
 
@@ -11,8 +11,18 @@ export class ShoppingCartItemController {
     return this.shoppingCartItemService.getAll();
   }
 
-  @Post('/add')
-  addToShoppingCart(@Body() shoppingCartItemDto: ShoppingCartItemDto) {
-    return this.shoppingCartItemService.addToShoppingCart(shoppingCartItemDto);
+  // @Post('/add')
+  // addToShoppingCart(@Body() shoppingCartItemDto: ShoppingCartItemDto) {
+  //   return this.shoppingCartItemService.addToShoppingCart(shoppingCartItemDto);
+  // }
+
+  @Put('/add')
+  addQuantity(@Body() shoppingCartItemDto: ShoppingCartItemDto) {
+    return this.shoppingCartItemService.addQuantity(shoppingCartItemDto);
+  }
+
+  @Put('/remove')
+  removeQuantity(@Body() shoppingCartItemDto: ShoppingCartItemDto) {
+    return this.shoppingCartItemService.removeQuantity(shoppingCartItemDto);
   }
 }
