@@ -45,6 +45,7 @@ export const Products = () => {
                     <div key={category.id} className={style.inputItem}>
                       <input
                         type="checkbox"
+                        className={style.checkboxInput}
                         id={String(category.id)}
                         value={category.categoryName}
                         onChange={(e) => handleChangeCategory(e)}

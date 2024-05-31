@@ -6,19 +6,19 @@ import {
   getUserCart,
   removeItemFromCart,
 } from "./ActionCreators";
-import { IProductItem } from "../../../models/IProductItem";
-import { json } from "node:stream/consumers";
 
 interface CartState {
   shoppingCartItems: IProductInCart[];
   isLoading: boolean;
   error: string;
+  price: number;
 }
 
 const initialState: CartState = {
   shoppingCartItems: [],
   isLoading: false,
   error: "",
+  price: 0,
 };
 
 export const cartSlice = createSlice({
@@ -26,7 +26,6 @@ export const cartSlice = createSlice({
   initialState,
   reducers: {
     addUnAuth(state, action) {
-      console.log(action.payload);
       const shoppingCartItem: IProductInCart = {
         quantityInCart: 1,
         productItem: action.payload,
@@ -45,9 +44,9 @@ export const cartSlice = createSlice({
         "shoppingCart",
         JSON.stringify(state.shoppingCartItems)
       );
+      console.log("asd");
     },
     removeUnAuth(state, action) {
-      console.log(action.payload);
       const currentItem = state.shoppingCartItems.find(
         (item) => item?.productItem?.id === action.payload
       );
@@ -59,6 +58,16 @@ export const cartSlice = createSlice({
           (item) => item.productItem?.id !== action.payload
         );
       }
+
+      localStorage.setItem(
+        "shoppingCart",
+        JSON.stringify(state.shoppingCartItems)
+      );
+    },
+    removeAllUnAuth(state, action) {
+      state.shoppingCartItems = state.shoppingCartItems.filter(
+        (item) => item.productItem?.id !== action.payload
+      );
 
       localStorage.setItem(
         "shoppingCart",
@@ -95,13 +104,11 @@ export const cartSlice = createSlice({
         state.isLoading = false;
         state.error = "";
         state.shoppingCartItems = action.payload.shoppingCartItems;
-        console.log(action.payload);
       })
       .addCase(addToUserCart.rejected, (state, action: any) => {
         state.isLoading = false;
         state.shoppingCartItems = [];
         state.error = action.payload;
-        console.log(action.payload);
       })
       .addCase(getUserCart.pending, (state) => {
         state.isLoading = true;
@@ -111,13 +118,11 @@ export const cartSlice = createSlice({
         state.isLoading = false;
         state.error = "";
         state.shoppingCartItems = action.payload.shoppingCartItems;
-        console.log(action.payload);
       })
       .addCase(getUserCart.rejected, (state, action: any) => {
         state.isLoading = false;
         state.shoppingCartItems = [];
         state.error = action.payload;
-        console.log(action.payload);
       })
       .addCase(addItemToCart.pending, (state) => {
         state.isLoading = true;
@@ -127,13 +132,11 @@ export const cartSlice = createSlice({
         state.isLoading = false;
         state.error = "";
         state.shoppingCartItems = action.payload.shoppingCartItems;
-        console.log(action.payload);
       })
       .addCase(addItemToCart.rejected, (state, action: any) => {
         state.isLoading = false;
         state.shoppingCartItems = [];
         state.error = action.payload;
-        console.log(action.payload);
       })
       .addCase(removeItemFromCart.pending, (state) => {
         state.isLoading = true;
@@ -143,18 +146,21 @@ export const cartSlice = createSlice({
         state.isLoading = false;
         state.error = "";
         state.shoppingCartItems = action.payload.shoppingCartItems;
-        console.log(action.payload);
       })
       .addCase(removeItemFromCart.rejected, (state, action: any) => {
         state.isLoading = false;
         state.shoppingCartItems = [];
         state.error = action.payload;
-        console.log(action.payload);
       });
   },
 });
 
-export const { addUnAuth, getLocalCart, removeUnAuth, adddQuantityUnAuth } =
-  cartSlice.actions;
+export const {
+  addUnAuth,
+  getLocalCart,
+  removeUnAuth,
+  adddQuantityUnAuth,
+  removeAllUnAuth,
+} = cartSlice.actions;
 
 export default cartSlice.reducer;

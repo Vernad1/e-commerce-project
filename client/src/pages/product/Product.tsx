@@ -21,7 +21,7 @@ export const Product = () => {
     const currentItem = item?.configuration.find(
       (variant: any) => variant.variation.name == "Размер"
     );
-    return currentItem.value;
+    return currentItem?.value;
   });
 
   console.log(selectedProduct);
@@ -108,7 +108,7 @@ export const Product = () => {
                           : style.variationItem
                       }
                     >
-                      {item.toUpperCase()}
+                      {item?.toUpperCase()}
                     </div>
                   );
                 })}

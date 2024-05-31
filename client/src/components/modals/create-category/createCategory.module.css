@@ -1,0 +1,51 @@
+.modal {
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+.modalContent {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+.inputWrapper {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+label {
+  margin-bottom: 11px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #767676;
+  text-transform: unset;
+}
+
+.input {
+  width: 100%;
+  max-width: 350px;
+  padding: 12px 10px;
+  border: 1px solid #999;
+  font-size: 14px;
+  line-height: 1.7;
+  align-self: flex-start;
+}
+
+.select {
+  width: 100%;
+  max-width: 350px;
+  font-size: 18px;
+  padding: 10px;
+}

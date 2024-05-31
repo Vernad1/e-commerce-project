@@ -22,6 +22,7 @@ export const ProductList: React.FC<ProductListProps> = ({ filters }) => {
   //     .catch((e) => console.log(e));
   // }, []);
 
+  // console.log("render page");
   const { data, loading, error } = useFetch(
     `/product${filters.length ? fromArrayToUrlParams(filters) : ""}`
   );

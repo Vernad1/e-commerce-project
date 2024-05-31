@@ -1,4 +1,5 @@
-export const ADMIN_ROUTE = "/admin";
+export const ADMIN_ROUTE = "/admin/:category";
+export const ADMIN_ROUTE_SIZES = "/admin/:category/:productid";
 export const HOME_ROUTE = "/";
 export const REGISTER_ROUTE = "/registration";
 export const LOGIN_ROUTE = "/login";
@@ -7,3 +8,4 @@ export const NOT_FOUND_ROUTE = "*";
 export const CATEGORIES = "/products/:id";
 export const CATEGORIES_FILTERS = "/products/:filter/:id"; //
 export const PRODUCT_ROUTE = "/product/:id";
+export const SHOPPING_CART_ROUTE = "/cart";
