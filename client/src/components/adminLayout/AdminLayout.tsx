@@ -1,12 +1,12 @@
 import React, { ReactNode } from "react";
-import style from "./Layout.module.css";
 import { Header } from "../header/Header";
+import style from "./adminLayout.module.css";
 
 interface Props {
   children?: ReactNode;
 }
 
-export const Layout: React.FC<Props> = ({ children }) => {
+export const AdminLayout: React.FC<Props> = ({ children }) => {
   return (
     <div className={style.appcontainer}>
       <Header></Header>
