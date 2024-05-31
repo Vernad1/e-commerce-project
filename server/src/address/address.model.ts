@@ -2,20 +2,13 @@ import {
   BelongsTo,
   Column,
   DataType,
-<<<<<<< Updated upstream
-=======
   ForeignKey,
   HasMany,
->>>>>>> Stashed changes
   Model,
   Table,
 } from 'sequelize-typescript';
 import { User } from '../user/user.model';
-<<<<<<< Updated upstream
-import { UserAddress } from './user-address.model';
-=======
 import { ShopOrder } from 'src/shop-order/shop-order.model';
->>>>>>> Stashed changes
 
 interface AddressCreationAttrs {
   city: string;
@@ -76,14 +69,9 @@ export class Address extends Model<Address, AddressCreationAttrs> {
   })
   postcode: string;
 
-<<<<<<< Updated upstream
-  @BelongsToMany(() => User, () => UserAddress)
-  user: User[];
-=======
   @BelongsTo(() => User)
   user: User;
 
   @HasMany(() => ShopOrder)
   shopOrders: ShopOrder[];
->>>>>>> Stashed changes
 }

@@ -10,13 +10,6 @@ import { ShopOrder } from 'src/shop-order/shop-order.model';
 @Module({
   controllers: [AddressController],
   providers: [AddressService],
-<<<<<<< Updated upstream
-  imports: [
-    SequelizeModule.forFeature([Address, User, UserAddress]),
-    UserModule,
-  ],
-=======
   imports: [SequelizeModule.forFeature([Address, User, ShopOrder]), UserModule],
->>>>>>> Stashed changes
 })
 export class AddressModule {}
