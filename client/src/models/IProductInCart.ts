@@ -2,7 +2,8 @@ export interface IProductInCart {
   id?: number;
   quantityInCart: number;
 
-  productItem?: {
+  // productItem?: {
+  productItem: {
     id: number;
     quantity: number;
     sku: string;
