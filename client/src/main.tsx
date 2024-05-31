@@ -8,13 +8,13 @@ import { store } from "./store/store";
 import { Auth } from "./features/auth/Auth";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <BrowserRouter>
-        <Auth>
-          <AppRouter></AppRouter>
-        </Auth>
-      </BrowserRouter>
-    </Provider>
-  </React.StrictMode>
+  // <React.StrictMode>
+  <Provider store={store}>
+    <BrowserRouter>
+      <Auth>
+        <AppRouter></AppRouter>
+      </Auth>
+    </BrowserRouter>
+  </Provider>
+  // </React.StrictMode>
 );

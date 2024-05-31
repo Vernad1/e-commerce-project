@@ -9,6 +9,7 @@ import { ProductDetails } from 'src/details/product-details.model';
 import { DetailsModule } from 'src/details/details.module';
 import { ProductDescription } from 'src/product-description/product-description.model';
 import { ProductImage } from 'src/product-image/product-image.model';
+import { ProductImageModule } from 'src/product-image/product-image.module';
 
 @Module({
   controllers: [ProductController],
@@ -23,6 +24,7 @@ import { ProductImage } from 'src/product-image/product-image.model';
       ProductImage,
     ]),
     DetailsModule,
+    ProductImageModule,
   ],
 })
 export class ProductModule {}

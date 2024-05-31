@@ -9,6 +9,9 @@ import { ProductConfiguration } from './product-configuration.model';
 import { VariationModule } from 'src/variation/variation.module';
 import { VariationOptionModule } from 'src/variation-option/variation-option.module';
 import { ShoppingCart } from 'src/shopping-cart/shopping-cart.model';
+import { ShoppingCartItemModule } from 'src/shopping-cart-item/shopping-cart-item.module';
+import { ShoppingCartItem } from 'src/shopping-cart-item/shopping-cart-item.model';
+import { OrderItem } from 'src/order-item/order-item.model';
 
 @Module({
   providers: [ProductItemService],
@@ -20,9 +23,12 @@ import { ShoppingCart } from 'src/shopping-cart/shopping-cart.model';
       VariationOption,
       ProductConfiguration,
       ShoppingCart,
+      ShoppingCartItem,
+      OrderItem,
     ]),
     VariationModule,
     VariationOptionModule,
+    ShoppingCartItemModule,
   ],
 })
 export class ProductItemModule {}

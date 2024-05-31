@@ -1,15 +1,22 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { ShoppingCartItemDto } from './dto/stopping-cart-item.dto';
+import {
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+  forwardRef,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { ShoppingCartItem } from './shopping-cart-item.model';
 import { ShoppingCartService } from 'src/shopping-cart/shopping-cart.service';
+import { ShoppingCartItemDto } from './dto/stopping-cart-item.dto';
 
 @Injectable()
 export class ShoppingCartItemService {
   constructor(
     @InjectModel(ShoppingCartItem)
     private shoppingCartItemRepo: typeof ShoppingCartItem,
-    private shoppingCartService: ShoppingCartService,
+    @Inject(forwardRef(() => ShoppingCartService))
+    private readonly shoppingCartService: ShoppingCartService,
   ) {}
 
   async getAll() {
@@ -39,41 +46,68 @@ export class ShoppingCartItemService {
     return shoppingCartItem;
   }
 
-  async addToShoppingCart(shoppingCartItemDto: ShoppingCartItemDto) {
-    const shoppingCart = await this.shoppingCartService.getByUserId(
+  async addQuantity(shoppingCartItemDto: ShoppingCartItemDto) {
+    let shoppingCart = await this.shoppingCartService.getByUserId(
       shoppingCartItemDto.userId,
     );
-
     if (!shoppingCart) {
       throw new HttpException(
         'Отсутсвует корзина! Обратитесь в службку поддержки!',
         HttpStatus.BAD_REQUEST,
       );
     } else {
-      console.log({ id: shoppingCart.id, n: 1 });
-      const isProductInCart = await this.shoppingCartService.ifProductInCart(
-        shoppingCart.id,
-        shoppingCartItemDto.productItemId,
-      );
-      if (isProductInCart) {
-        console.log({ id: shoppingCart.id, n: 2 });
-
-        const currentProductItem = await this.findShoppingCartItemByDto({
+      const shoppingCartItem = await this.shoppingCartItemRepo.findOne({
+        where: {
           cartId: shoppingCart.id,
           productItemId: shoppingCartItemDto.productItemId,
-        });
-        currentProductItem.quantity = currentProductItem.quantity + 1;
-        await currentProductItem.save();
-        return currentProductItem;
-      } else {
-        console.log({ id: shoppingCart.id, n: 3 });
-
-        const currentProductItem = await this.createShoppingCartItem({
-          cartId: shoppingCart.id,
-          productItemId: shoppingCartItemDto.productItemId,
-        });
-        return currentProductItem;
+        },
+      });
+      if (!shoppingCartItem) {
+        throw new HttpException('Отсутсвует товар!', HttpStatus.BAD_REQUEST);
       }
+      shoppingCartItem.quantityInCart += 1;
+      await shoppingCartItem.save();
+      shoppingCart = await this.shoppingCartService.getByUserId(
+        shoppingCartItemDto.userId,
+      );
+      return shoppingCart;
+    }
+  }
+
+  async removeQuantity(shoppingCartItemDto: ShoppingCartItemDto) {
+    let shoppingCart = await this.shoppingCartService.getByUserId(
+      shoppingCartItemDto.userId,
+    );
+    if (!shoppingCart) {
+      throw new HttpException(
+        'Отсутсвует корзина! Обратитесь в службку поддержки!',
+        HttpStatus.BAD_REQUEST,
+      );
+    } else {
+      const shoppingCartItem = await this.shoppingCartItemRepo.findOne({
+        where: {
+          cartId: shoppingCart.id,
+          productItemId: shoppingCartItemDto.productItemId,
+        },
+      });
+
+      if (!shoppingCartItem) {
+        throw new HttpException('Отсутсвует товар!', HttpStatus.BAD_REQUEST);
+      }
+      if (shoppingCartItem.quantityInCart === 1) {
+        await shoppingCartItem.destroy();
+        shoppingCart = await this.shoppingCartService.getByUserId(
+          shoppingCartItemDto.userId,
+        );
+        return shoppingCart;
+      } else {
+        shoppingCartItem.quantityInCart -= 1;
+        await shoppingCartItem.save();
+      }
+      shoppingCart = await this.shoppingCartService.getByUserId(
+        shoppingCartItemDto.userId,
+      );
+      return shoppingCart;
     }
   }
 }

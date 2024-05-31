@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { ShoppingCartItemService } from './shopping-cart-item.service';
 import { ShoppingCartItemController } from './shopping-cart-item.controller';
 import { SequelizeModule } from '@nestjs/sequelize';
@@ -12,7 +12,8 @@ import { ShoppingCartItem } from './shopping-cart-item.model';
   controllers: [ShoppingCartItemController],
   imports: [
     SequelizeModule.forFeature([ShoppingCart, ProductItem, ShoppingCartItem]),
-    ShoppingCartModule,
+    forwardRef(() => ShoppingCartModule),
   ],
+  exports: [ShoppingCartItemService],
 })
 export class ShoppingCartItemModule {}

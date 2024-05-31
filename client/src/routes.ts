@@ -6,6 +6,7 @@ import { LoginPage } from "./pages/login/LoginPage";
 import { NotFoundPage } from "./pages/notFoundPage/NotFoundPage";
 import { Product } from "./pages/product/Product";
 import { RegisterPage } from "./pages/register/RegisterPage";
+import { ShoppingCartPage } from "./pages/shoppingCartPage/ShoppingCartPage";
 import {
   HOME_ROUTE,
   REGISTER_ROUTE,
@@ -16,6 +17,8 @@ import {
   PRODUCT_ROUTE,
   CATEGORIES_FILTERS,
   ADMIN_ROUTE,
+  ADMIN_ROUTE_SIZES,
+  SHOPPING_CART_ROUTE,
 } from "./utils/consts";
 
 export const authRoutes = [
@@ -65,5 +68,13 @@ export const publicRoutes = [
   {
     path: ADMIN_ROUTE,
     Component: AdminPage,
+  },
+  {
+    path: ADMIN_ROUTE_SIZES,
+    Component: AdminPage,
+  },
+  {
+    path: SHOPPING_CART_ROUTE,
+    Component: ShoppingCartPage,
   },
 ];

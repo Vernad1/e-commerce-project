@@ -4,6 +4,7 @@ import {
   Column,
   DataType,
   ForeignKey,
+  HasMany,
   Model,
   Table,
 } from 'sequelize-typescript';
@@ -12,6 +13,7 @@ import { VariationOption } from 'src/variation-option/variation-option.model';
 import { ProductConfiguration } from './product-configuration.model';
 import { ShoppingCart } from 'src/shopping-cart/shopping-cart.model';
 import { ShoppingCartItem } from 'src/shopping-cart-item/shopping-cart-item.model';
+import { OrderItem } from 'src/order-item/order-item.model';
 
 interface Config {
   variation: string;
@@ -59,6 +61,9 @@ export class ProductItem extends Model<ProductItem, ProductItemCreationAttrs> {
   @BelongsToMany(() => VariationOption, () => ProductConfiguration)
   configuration: VariationOption[];
 
-  @BelongsToMany(() => ShoppingCart, () => ShoppingCartItem)
-  shoppingCarts: ShoppingCart[];
+  @HasMany(() => ShoppingCartItem)
+  shoppingCartItems: ShoppingCartItem[];
+
+  @HasMany(() => OrderItem)
+  orderItems: OrderItem[];
 }

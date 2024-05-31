@@ -1,0 +1,43 @@
+.container {
+  width: 100%;
+  height: auto;
+  padding: 50px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+
+  -webkit-box-shadow: 0px 3px 15px 5px rgba(34, 60, 80, 0.2);
+  -moz-box-shadow: 0px 3px 15px 5px rgba(34, 60, 80, 0.2);
+  box-shadow: 0px 3px 15px 5px rgba(34, 60, 80, 0.2);
+}
+
+.signInOptions {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  padding: 25px 20px 15px;
+}
+
+.signInTitle {
+  width: 100%;
+  text-align: center;
+  font-size: 18px;
+  text-transform: uppercase;
+  color: #999;
+  border-bottom: 2px solid #f1f1f1;
+  padding-bottom: 15px;
+}
+
+.signInTitle.active {
+  border-bottom: 2px solid #3b5164;
+}
+
+.formWrapper {
+  height: 100%;
+  width: 100%;
+  padding: 0 18.5%;
+  margin-top: 50px;
+}

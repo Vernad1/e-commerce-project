@@ -26,6 +26,16 @@ export class DetailsController {
     return this.detailsService.getAllDetails(params);
   }
 
+  @Get('/brand')
+  getBrands() {
+    return this.detailsService.getBrands();
+  }
+
+  @Get('/color')
+  getColors() {
+    return this.detailsService.getColors();
+  }
+
   @Get('find?')
   getByValue(@Query('name') name: string, @Query('value') value: string) {
     if (name && value) {

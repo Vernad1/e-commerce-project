@@ -1,4 +1,10 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+  forwardRef,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { ShoppingCart } from './shopping-cart.model';
 import { CreateShoppingCartDto } from './dto/create-shopping-cart.dto';
@@ -11,11 +17,14 @@ import { ShoppingCartItem } from 'src/shopping-cart-item/shopping-cart-item.mode
 import { Details } from 'src/details/details.model';
 import { VariationOption } from 'src/variation-option/variation-option.model';
 import { Variation } from 'src/variation/variation.model';
+import { ShoppingCartItemService } from 'src/shopping-cart-item/shopping-cart-item.service';
 
 @Injectable()
 export class ShoppingCartService {
   constructor(
     @InjectModel(ShoppingCart) private shoppingCartRepo: typeof ShoppingCart,
+    @Inject(forwardRef(() => ShoppingCartItemService))
+    private readonly shoppingCartItemService: ShoppingCartItemService,
   ) {}
   async createCart(dto: CreateShoppingCartDto) {
     const shoppingCart = await this.shoppingCartRepo.create(dto);
@@ -38,28 +47,37 @@ export class ShoppingCartService {
       attributes: ['id', 'userId'],
       include: [
         {
-          model: ProductItem,
-          attributes: ['id', 'productId', 'sku', 'quantity'],
+          model: ShoppingCartItem,
+          attributes: ['id', 'quantityInCart'],
           include: [
             {
-              model: VariationOption,
-              attributes: ['id', 'variationId', 'value'],
+              model: ProductItem,
+              attributes: ['id', 'productId', 'sku', 'quantity'],
               include: [
                 {
-                  model: Variation,
-                  attributes: ['id', 'categoryId', 'name'],
+                  model: VariationOption,
+                  attributes: ['id', 'variationId', 'value'],
+                  include: [
+                    {
+                      model: Variation,
+                      attributes: ['id', 'categoryId', 'name'],
+                    },
+                  ],
                 },
-              ],
-            },
-            {
-              model: Product,
-              attributes: ['id', 'name', 'description', 'price'],
-
-              include: [
-                { model: Details },
                 {
-                  model: ProductImage,
-                  attributes: ['id', 'image'],
+                  model: Product,
+                  attributes: ['id', 'name', 'description', 'price'],
+
+                  include: [
+                    {
+                      model: Details,
+                      attributes: ['id', 'name', 'value'],
+                    },
+                    {
+                      model: ProductImage,
+                      attributes: ['id', 'image'],
+                    },
+                  ],
                 },
               ],
             },
@@ -76,10 +94,16 @@ export class ShoppingCartService {
         id: cartId,
       },
       include: {
-        model: ProductItem,
-        where: {
-          id: productId,
-        },
+        model: ShoppingCartItem,
+        where: {},
+        include: [
+          {
+            model: ProductItem,
+            where: {
+              id: productId,
+            },
+          },
+        ],
       },
     });
     if (shoppingCart) {
@@ -90,25 +114,35 @@ export class ShoppingCartService {
   }
 
   async addToShoppingCart(addToShoppingCartDto: AddToShopptingCartDto) {
-    const shoppingCart = await this.getByUserId(addToShoppingCartDto.userId);
+    let shoppingCart = await this.getByUserId(addToShoppingCartDto.userId);
     if (!shoppingCart) {
       throw new HttpException(
         'Отсутсвует корзина! Обратитесь в службку поддержки!',
         HttpStatus.BAD_REQUEST,
       );
     } else {
-      console.log(shoppingCart.products);
-      await shoppingCart.$add('products', [addToShoppingCartDto.productItemId]);
-      await shoppingCart.save();
-
       if (
-        this.ifProductInCart(
+        await this.ifProductInCart(
           shoppingCart.id,
           addToShoppingCartDto.productItemId,
         )
       ) {
-        // shoppingCart.products?.ShoppingCartItem.quantity
+        const currentShoppingCartItem =
+          await this.shoppingCartItemService.findShoppingCartItemByDto({
+            cartId: shoppingCart.id,
+            productItemId: addToShoppingCartDto.productItemId,
+          });
+        currentShoppingCartItem.quantityInCart += 1;
+        await currentShoppingCartItem.save();
+      } else {
+        const shoppingCartItem =
+          await this.shoppingCartItemService.createShoppingCartItem({
+            cartId: shoppingCart.id,
+            productItemId: addToShoppingCartDto.productItemId,
+          });
       }
+      shoppingCart = await this.getByUserId(addToShoppingCartDto.userId);
+
       return shoppingCart;
     }
   }

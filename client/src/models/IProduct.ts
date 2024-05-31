@@ -29,7 +29,7 @@ export interface IProduct {
     value: string;
   }[];
 
-  productItems?: {
+  ProductItems: {
     id: number;
     quantity: number;
     sku: string;

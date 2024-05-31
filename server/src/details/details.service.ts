@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { CreateDetailDto } from './dto/create-detail.dto';
 import { InjectModel } from '@nestjs/sequelize';
 import { Details } from './details.model';
@@ -33,6 +33,25 @@ export class DetailsService {
       },
     });
     return detail;
+  }
+
+  async getBrands() {
+    const details = await this.detailsRepository.findAll({
+      where: {
+        name: 'Бренд',
+      },
+    });
+
+    return details;
+  }
+
+  async getColors() {
+    const details = await this.detailsRepository.findAll({
+      where: {
+        name: 'Цвет',
+      },
+    });
+    return details;
   }
 
   async getAllDetails(params: any) {

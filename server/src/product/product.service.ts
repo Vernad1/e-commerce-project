@@ -11,6 +11,7 @@ import sequelize from 'sequelize';
 import { ProductItem } from 'src/product-item/product-item.model';
 import { VariationOption } from 'src/variation-option/variation-option.model';
 import { Variation } from 'src/variation/variation.model';
+import { ProductImageService } from 'src/product-image/product-image.service';
 
 //TODO сделать product_image
 
@@ -20,13 +21,14 @@ export class ProductService {
     @InjectModel(Product)
     private productRepo: typeof Product,
     private detailsService: DetailsService,
+    private productImageService: ProductImageService,
   ) {}
   // async createProduct(dto: CreateProductDto) {
   //   const product = await this.productRepo.create(dto);
   //   return product;
   // }
 
-  async createProduct(dto: CreateProductDto) {
+  async createProduct(dto: CreateProductDto, image: any) {
     console.log({ dto });
 
     if (!dto.details || !dto.details[0]?.name || !dto.details[0]?.value) {
@@ -54,6 +56,8 @@ export class ProductService {
         await product.$add('details', [newDetail.id]);
       }
     }
+
+    await this.productImageService.create({ productId: product.id }, image);
 
     return product;
   }

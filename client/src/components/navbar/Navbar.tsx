@@ -34,7 +34,7 @@ export const Navbar = () => {
           <Link to={"/"}>Контакты</Link>
         </div>
         <div className={style.item}>
-          <Link to={"/admin"}>Админ</Link>
+          <Link to={"/admin/products"}>Админ</Link>
         </div>
 
         <div className={style.item}>

@@ -1,0 +1,25 @@
+.table {
+  width: 100%;
+  max-width: 600px;
+  border-collapse: collapse;
+}
+
+td,
+th {
+  text-align: center;
+  padding: 10px;
+}
+
+td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+th {
+  background-color: #f1f1f1;
+  font-weight: 400;
+}
+
+.row {
+  border-bottom: 1px solid #999;
+}

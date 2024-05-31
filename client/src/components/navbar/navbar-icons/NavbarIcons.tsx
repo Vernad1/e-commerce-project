@@ -1,11 +1,27 @@
 import style from "./navbarIcons.module.css";
 import { LuSearch, LuShoppingCart, LuUser2 } from "react-icons/lu";
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { Link, useLocation, useParams } from "react-router-dom";
+import { useRef, useState } from "react";
 import { ShoppingCart } from "../../shoppingCart/ShoppingCart";
 
 export const NavbarIcons = () => {
-  const [cartOpen, setCartOpen] = useState(false);
+  const [isCartHover, setIsCartHover] = useState(false);
+  const timeoutRef = useRef<ReturnType<typeof setInterval>>();
+
+  const pathName = useLocation().pathname;
+
+  const handleMouseEnter = () => {
+    clearTimeout(timeoutRef.current);
+    setIsCartHover(true);
+  };
+
+  const handleMouseLeave = () => {
+    timeoutRef.current = setTimeout(() => {
+      setIsCartHover(false);
+    }, 1000);
+
+    console.log(timeoutRef.current);
+  };
 
   const iconSize = 22;
   return (
@@ -24,13 +40,21 @@ export const NavbarIcons = () => {
 
       <div
         className={style["icon-wrapper"]}
-        onClick={() => setCartOpen((prev) => !prev)}
+        onMouseEnter={() => handleMouseEnter()}
+        onMouseLeave={() => handleMouseLeave()}
       >
         <div className={style.link}>
-          <LuShoppingCart size={iconSize}></LuShoppingCart>
+          <Link className={style.link} to={"/cart"}>
+            <LuShoppingCart size={iconSize}></LuShoppingCart>
+          </Link>
         </div>
       </div>
-      {cartOpen && <ShoppingCart></ShoppingCart>}
+      {pathName != "/cart" && isCartHover && (
+        <ShoppingCart
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        ></ShoppingCart>
+      )}
     </div>
   );
 };

@@ -4,7 +4,7 @@ import validateEmail from "../service/helpers/validateEmail";
 //TODO вынести интерфейс в другое место
 export interface IValidations {
   minLength: number;
-  inputType: "password" | "email";
+  inputType: "password" | "email" | "text";
 }
 
 export const useValidation = (value: string, validations: IValidations) => {
