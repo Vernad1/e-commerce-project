@@ -23,7 +23,7 @@ export class ShoppingCartItem extends Model<ShoppingCartItem> {
     type: DataType.INTEGER,
     defaultValue: 1,
   })
-  quantity: number;
+  quantityInCart: number;
 
   @ForeignKey(() => ShoppingCart)
   @Column({ type: DataType.INTEGER })

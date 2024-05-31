@@ -15,6 +15,11 @@ export class ProductItemController {
     return this.productItemService.getAllProductItem();
   }
 
+  @Get('/:productId')
+  getProductItemsByProduct(@Param('productId') productId: number) {
+    return this.productItemService.getProductItemsByProduct(productId);
+  }
+
   @Get('/sizes/:id')
   getSizesByProduct(@Param('id') id: number) {
     return this.productItemService.getSizeByProductId(id);
